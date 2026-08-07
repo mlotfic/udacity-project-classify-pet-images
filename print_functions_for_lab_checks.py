@@ -126,15 +126,15 @@ def check_classifying_images(results_dic):
         
             # Prints only if NOT-a-Match Index 2 == 0 
             if results_dic[key][2] == 0:
- 
+
                 # Increments Not-a-Match counter
                 n_notmatch += 1
                 print("\n{:>30}: \nReal: {:>26}   Classifier: {:>30}".format(key,
                       results_dic[key][0], results_dic[key][1]))
 
         # Prints Total Number of Images - expects 40 from pet_images folder
-        print("\n# Total Images",n_match + n_notmatch, "# Matches:",n_match ,
-              "# NOT Matches:",n_notmatch)
+        print("\n# Total Images", n_match + n_notmatch, "# Matches:", n_match ,
+            "# NOT Matches:", n_notmatch)
 
  
 def check_classifying_labels_as_dogs(results_dic):

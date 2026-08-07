@@ -80,9 +80,10 @@ def get_input_args():
         help='text file with valid dog names (default: dognames.txt)'
     )
 
-    print("Dir:", parser.parse_args().dir)
-    print("Arch:", parser.parse_args().arch)
-    print("Dogfile:", parser.parse_args().dogfile)
+    args = parser.parse_args()
+    print("Dir:", args.dir)
+    print("Arch:", args.arch)
+    print("Dogfile:", args.dogfile)
 
     # Parses the command line arguments and returns the resulting Namespace object
-    return parser.parse_args()
+    return args
