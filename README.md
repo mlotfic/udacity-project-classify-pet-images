@@ -811,3 +811,27 @@ VGG's accuracy comes at a runtime cost, though: on the full `pet_images/` set ab
 **Environment:** Conda
 
 **Models:** AlexNet, VGG, ResNet
+
+---
+
+## 📚 Project Source & References
+
+### Udacity Project Repository
+
+This project is based on the Udacity **AI Programming with Python Nanodegree** revision repository:
+
+[Udacity AIPND Revision Repository](https://github.com/udacity/AIPND-revision?utm_source=chatgpt.com)
+
+The repository provides the original project materials and reference implementation structure for the **Image Classification for a City Dog Show** project.
+
+### Uploaded Image Source
+
+The `hourclass.jpg` image in the `uploaded_images/` directory was sourced from:
+
+[Depositphotos — Vintage kerosene lamp on wooden table](https://depositphotos.com/photo/vintage-kerosene-lamp-on-wooden-table-19960419.html?utm_source=chatgpt.com)
+
+| File                            | Source                                                  |
+| ------------------------------- | ------------------------------------------------------- |
+| `uploaded_images/hourclass.jpg` | Depositphotos — *Vintage kerosene lamp on wooden table* |
+
+> **Note:** Source attribution identifies the origin of the image. Redistribution of the image in a public repository remains subject to the applicable source/license terms.
