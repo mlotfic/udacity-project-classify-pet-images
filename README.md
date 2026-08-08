@@ -10,6 +10,8 @@ The project focuses on building the Python application around an existing image-
 
 ## 📋 Table of Contents
 
+## 📋 Table of Contents
+
 * [Project Overview](#-project-overview)
 * [Project Objectives](#-project-objectives)
 * [Project Architecture](#-project-architecture)
@@ -24,13 +26,8 @@ The project focuses on building the Python application around an existing image-
   * [3. Image Classification](#3-image-classification)
   * [4. Dog / Not-Dog Classification](#4-dog--not-dog-classification)
   * [5. Results and Model Comparison](#5-results-and-model-comparison)
-* [Rubric Evidence](#-rubric-evidence)
 * [Uploaded Image Questions](#-uploaded-image-questions)
 * [Results](#-results)
-* [Key Python Concepts](#-key-python-concepts)
-* [Lessons Learned](#-lessons-learned)
-* [Reproducibility](#-reproducibility)
-* [Conclusion](#-conclusion)
 
 ---
 
@@ -94,6 +91,22 @@ The implementation addresses the following project requirements:
 
 ---
 
+## 🎯 Project Objectives
+
+The implementation addresses the following project requirements:
+
+* Accept configuration through command-line arguments.
+* Measure program execution time.
+* Extract expected pet labels from image filenames.
+* Classify images using a pretrained CNN.
+* Normalize classifier output before comparison.
+* Determine whether expected and predicted labels represent dogs.
+* Compare actual labels against classifier predictions.
+* Calculate classification statistics.
+* Execute and compare multiple CNN architectures.
+
+---
+
 ## 🏗️ Project Architecture
 
 The application is divided into several Python modules, with each module responsible for a specific part of the workflow.
@@ -126,7 +139,7 @@ The application is divided into several Python modules, with each module respons
 ### Main Components
 
 | File                                | Responsibility                                                   |
-| ----------------------------------- | ---------------------------------------------------------------- |
+| ------------------------------------ | ------------------------------------------------------------------ |
 | `check_images.py`                   | Main application and overall processing workflow                 |
 | `get_input_args.py`                 | Processes command-line arguments                                 |
 | `get_pet_labels.py`                 | Extracts expected labels from image filenames                    |
@@ -172,14 +185,6 @@ intropyproject-classify-pet-images/
 │
 ├── uploaded_images/
 │   └── *.jpg
-│
-└── screenshots/
-    ├── 01_command_arguments.png
-    ├── 02_pet_labels.png
-    ├── 03_classification.png
-    ├── 04_dog_not_dog.png
-    ├── 05_timing.png
-    └── 06_model_comparison.png
 ```
 
 ---
@@ -205,6 +210,131 @@ The exact environment name should match the name defined in `environment.yml`.
 ---
 
 ## ▶️ Running the Project
+
+### 1. Test the `classifier` function
+
+```bash
+python test_classifier.py
+```
+
+output:
+
+```text
+Results from test_classifier.py
+Image: pet_images/Collie_03797.jpg using model: vgg was classified as a: collie
+```
+
+### 2. Test the `get_input_args` function
+
+```bash
+python get_input_args.py
+```
+
+output:
+
+```text
+Dir: pet_images
+Arch: vgg
+Dogfile: dognames.txt
+  in_arg.dir      = 'pet_images'   (expected: 'pet_images/')
+  in_arg.arch     = 'vgg'   (expected: 'vgg')
+  in_arg.dogfile  = 'dognames.txt'   (expected: 'dognames.txt')
+Dir: uploaded_images/
+Arch: resnet
+Dogfile: custom_dognames.txt
+  in_arg.dir      = 'uploaded_images/'
+  in_arg.arch     = 'resnet'
+  in_arg.dogfile  = 'custom_dognames.txt'
+```
+
+### 3. Test the `get_pet_labels` function
+
+```bash
+python get_pet_labels.py
+```
+
+output:
+
+```python
+{
+        'Basenji_00963.jpg': ['basenji'],
+        'Basenji_00974.jpg': ['basenji'],
+        'Basset_hound_01034.jpg': ['basset hound'],
+        'Beagle_01125.jpg': ['beagle'],
+        'Beagle_01141.jpg': ['beagle'],
+        'Beagle_01170.jpg': ['beagle'], 
+        'Boston_terrier_02259.jpg': ['boston terrier'], 
+        'Boston_terrier_02285.jpg': ['boston terrier'],
+        ...
+        'skunk_029.jpg': ['skunk']
+}
+```
+
+### 4. Test the `classify_images` function
+
+```bash
+python classify_images.py
+```
+
+output:
+
+```python
+{
+        'Basenji_00963.jpg': ['basenji', 'basenji', 1], 
+        'Basenji_00974.jpg': ['basenji', 'basenji', 1], 
+        'Basset_hound_01034.jpg': ['basset hound', 'basset, basset hound', 1], 
+        'Beagle_01125.jpg': ['beagle', 'beagle', 1], 
+        'Beagle_01141.jpg': ['beagle', 'beagle', 1], 
+        'Beagle_01170.jpg': ['beagle', 'walker hound, walker foxhound', 0], 
+        'Boston_terrier_02259.jpg': ['boston terrier', 'boston bull, boston terrier', 1], 
+        'skunk_029.jpg': ['skunk', 'skunk, polecat, wood pussy', 1]
+}
+```
+
+### 5. Test the `adjust_results4_isadog` function
+
+```bash
+python adjust_results4_isadog.py
+```
+
+output:
+
+```python
+{
+        'Basenji_00963.jpg': ['basenji', 'basenji', 1, 1, 1], 
+        'Basenji_00974.jpg': ['basenji', 'basenji', 1, 1, 1], 
+        'Basset_hound_01034.jpg': ['basset hound', 'basset, basset hound', 1, 1, 1], 
+        'Beagle_01125.jpg': ['beagle', 'beagle', 1, 1, 1], 
+        'Beagle_01141.jpg': ['beagle', 'beagle', 1, 1, 1], 
+        'Beagle_01170.jpg': ['beagle', 'walker hound, walker foxhound', 0, 1, 1], 
+        'Boston_terrier_02259.jpg': ['boston terrier', 'boston bull, boston terrier', 1, 1, 1], 
+        'skunk_029.jpg': ['skunk', 'skunk, polecat, wood pussy', 1, 0, 0]
+}
+```
+
+### 6. Test the `calculates_results_stats` function
+
+```bash
+python calculates_results_stats.py
+```
+
+output:
+
+```python
+{
+        'n_dogs_img': 7, 
+        'n_match': 7, 
+        'n_correct_dogs': 7, 
+        'n_correct_notdogs': 1, 
+        'n_correct_breed': 6, 
+        'n_images': 8, 
+        'n_notdogs_img': 1, 
+        'pct_match': 87.5, 
+        'pct_correct_dogs': 100.0, 
+        'pct_correct_breed': 85.71428571428571, 
+        'pct_correct_notdogs': 100.0
+}
+```
 
 ### Default execution
 
@@ -269,141 +399,23 @@ python check_images.py --dir uploaded_images/ --arch alexnet --dogfile dognames.
 
 ### 1. Timing
 
-The application measures the execution time of the main processing workflow.
-
-The timer starts before image processing and stops after processing is complete.
-
-Conceptually:
-
-```python
-start_time = time()
-
-# Main processing
-...
-
-end_time = time()
-
-total_time = end_time - start_time
-```
-
-The elapsed time is then displayed as part of the final program output.
-
-#### Implementation checks
-
-* Timer starts before the main processing.
-* Timer stops after processing.
-* Total execution time is calculated.
-* Execution time is displayed.
+`check_images.py` records the start and end time of the full pipeline (image reading, classification, statistics) using Python's `time` module, and reports the elapsed runtime in `HH:MM:SS` format at the end of each run (see the `** Total Elapsed Runtime` line in the outputs below).
 
 ### 2. Pet Image Labels
 
-The `get_pet_labels()` function extracts the expected pet label from each image filename.
-
-For example:
-
-```text
-Poodle_07956.jpg
-```
-
-is converted to:
-
-```text
-poodle
-```
-
-A filename containing multiple words can also be converted into a normalized label.
-
-For example:
-
-```text
-fox_squirrel_01.jpg
-```
-
-becomes:
-
-```text
-fox squirrel
-```
-
-The resulting dictionary follows the required project structure:
-
-```python
-{
-    "Poodle_07956.jpg": ["poodle"],
-    "fox_squirrel_01.jpg": ["fox squirrel"]
-}
-```
-
-The filename is used as the dictionary key, while the extracted label is stored in the value.
-
----
+`get_pet_labels.py` parses each filename in the image directory (e.g. `Basenji_00963.jpg`), strips the trailing digits and extension, replaces underscores with spaces, and lowercases the result to build the expected ("real") label for that image — see step 3 above.
 
 ### 3. Image Classification
 
-Each image is passed to the pretrained classifier using its complete path.
+`classify_images.py` calls the pretrained `classifier()` function (from `classifier.py`) on each image using the architecture chosen via `--arch`, then normalizes the returned label so it can be compared against the expected label from step 2 (case, punctuation, and whitespace differences are handled here) — see step 4 above.
 
-The selected model architecture is also passed to the classifier.
+### 4. Dog / Not-Dog Classification
 
-The implementation follows the required pattern:
+`adjust_results4_isadog.py` checks the expected label and the classifier's label against `dognames.txt` to determine whether each represents a dog breed, appending two additional flags (`is-a-dog` for the real label, `is-a-dog` for the classifier label) to each entry's result list — see step 5 above.
 
-```python
-classifier(images_dir + users_key, model)
-```
+### 5. Results and Model Comparison
 
-The classifier returns a predicted label.
-
-Before comparing the prediction with the expected label, the result is normalized:
-
-```python
-classifier_label = classifier_label.lower().strip()
-```
-
-This prevents capitalization and leading/trailing whitespace from affecting the comparison.
-
-The application then records whether the prediction matches the expected label.
-
----
-
-## 4. Dog / Not-Dog Classification
-
-The project evaluates two independent labels:
-
-### Actual label
-
-The expected label is obtained from the image filename.
-
-### Classifier label
-
-The predicted label is returned by the pretrained image classifier.
-
-Each label is classified as either:
-
-```text
-Dog
-```
-
-or:
-
-```text
-Not Dog
-```
-
-This produces four possible outcomes:
-
-| Actual  | Classifier | Result    |
-| ------- | ---------- | --------- |
-| Dog     | Dog        | Correct   |
-| Not Dog | Not Dog    | Correct   |
-| Dog     | Not Dog    | Incorrect |
-| Not Dog | Dog        | Incorrect |
-
-This distinction is important because the project evaluates more than whether the classifier recognizes an animal.
-
-The application specifically determines whether the classifier correctly identifies the image as a **dog or not a dog**.
-
----
-
-## 5. Results and Model Comparison
+`check_images.py` runs the full pipeline end-to-end for each of the three CNN architectures and reports summary statistics for each. The full outputs are below.
 
 The project evaluates three pretrained CNN architectures:
 
@@ -415,10 +427,55 @@ ResNet
 
 Each architecture can be executed independently.
 
-### AlexNet
+#### AlexNet
 
 ```bash
 python check_images.py --arch alexnet
+```
+
+output
+
+```text
+Dir: pet_images
+Arch: alexnet
+Dogfile: dognames.txt
+Command Line Arguments:
+     dir = pet_images
+    arch = alexnet
+ dogfile = dognames.txt
+
+...
+
+# Total Images 40 # Matches: 30 # NOT Matches: 10
+
+ ** Statistics from calculates_results_stats() function:
+N Images: 40  N Dog Images: 30  N NotDog Images: 10
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  80.0
+
+ ** Check Statistics - calculated from this function as a check:
+N Images: 40  N Dog Images: 30  N NotDog Images: 10
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  80.0
+
+
+*** Results Summary for CNN Model Architecture ALEXNET ***
+N Images            :  40
+N Dog Images        :  30
+N Not-Dog Images    :  10
+
+pct_match: 75.0
+pct_correct_dogs: 100.0
+pct_correct_breed: 80.0
+pct_correct_notdogs: 100.0
+
+INCORRECT Dog Breed Assignment:
+Real:                     beagle   Classifier:               english foxhound
+Real:                     beagle   Classifier:  walker hound, walker foxhound
+Real:             boston terrier   Classifier:                        basenji
+Real:           golden retriever   Classifier:                tibetan mastiff
+Real:           golden retriever   Classifier:           afghan hound, afghan
+Real:             great pyrenees   Classifier:                         kuvasz
+
+** Total Elapsed Runtime: 0:0:3
 ```
 
 ### VGG
@@ -427,10 +484,96 @@ python check_images.py --arch alexnet
 python check_images.py --arch vgg
 ```
 
+output
+
+```text
+Dir: pet_images
+Arch: vgg
+Dogfile: dognames.txt
+Command Line Arguments:
+     dir = pet_images
+    arch = vgg
+ dogfile = dognames.txt
+
+...
+
+# Total Images 40 # Matches: 35 # NOT Matches: 5
+
+ ** Statistics from calculates_results_stats() function:
+N Images: 40  N Dog Images: 30  N NotDog Images: 10
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  93.3
+
+ ** Check Statistics - calculated from this function as a check:
+N Images: 40  N Dog Images: 30  N NotDog Images: 10
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  93.3
+
+
+*** Results Summary for CNN Model Architecture VGG ***
+N Images            :  40
+N Dog Images        :  30
+N Not-Dog Images    :  10
+
+pct_match: 87.5
+pct_correct_dogs: 100.0
+pct_correct_breed: 93.33333333333333
+pct_correct_notdogs: 100.0
+
+INCORRECT Dog Breed Assignment:
+Real:                     beagle   Classifier:  walker hound, walker foxhound
+Real:             great pyrenees   Classifier:                         kuvasz
+
+** Total Elapsed Runtime: 0:0:23
+```
+
 ### ResNet
 
 ```bash
 python check_images.py --arch resnet
+```
+
+output
+
+```text
+Dir: pet_images
+Arch: resnet
+Dogfile: dognames.txt
+Command Line Arguments:
+     dir = pet_images
+    arch = resnet
+ dogfile = dognames.txt
+
+...
+
+# Total Images 40 # Matches: 33 # NOT Matches: 7
+
+ ** Statistics from calculates_results_stats() function:
+N Images: 40  N Dog Images: 30  N NotDog Images: 10
+Pct Corr dog: 100.0 Pct Corr NOTdog:  90.0  Pct Corr Breed:  90.0
+
+ ** Check Statistics - calculated from this function as a check:
+N Images: 40  N Dog Images: 30  N NotDog Images: 10
+Pct Corr dog: 100.0 Pct Corr NOTdog:  90.0  Pct Corr Breed:  90.0
+
+
+*** Results Summary for CNN Model Architecture RESNET ***
+N Images            :  40
+N Dog Images        :  30
+N Not-Dog Images    :  10
+
+pct_match: 82.5
+pct_correct_dogs: 100.0
+pct_correct_breed: 90.0
+pct_correct_notdogs: 90.0
+
+INCORRECT Dog/NOT Dog Assignments:
+Real:                        cat   Classifier:   norwegian elkhound, elkhound
+
+INCORRECT Dog Breed Assignment:
+Real:                     beagle   Classifier:  walker hound, walker foxhound
+Real:           golden retriever   Classifier:                       leonberg
+Real:             great pyrenees   Classifier:                         kuvasz
+
+** Total Elapsed Runtime: 0:0:6
 ```
 
 The results can also be generated using the supplied batch script:
@@ -443,116 +586,25 @@ On Windows, the shell script may require Git Bash or WSL.
 
 ---
 
-# 📸 Rubric Evidence
+## 📊 Results
 
-Screenshots are provided to document the major implementation requirements.
+The final values in this section are taken directly from the `pet_images/` (40-image) `*** Results Summary ***` blocks shown above, under [5. Results and Model Comparison](#5-results-and-model-comparison). "Dogs Correct/Incorrect" reflects breed-level accuracy on the 30 dog images (the `pct_correct_dogs` figure was 100% for all three — every dog image was correctly identified *as a dog* — so breed match is the meaningful split here); "Not-Dogs Correct/Incorrect" reflects accuracy on the 10 non-dog images.
 
-### Command-Line Arguments
+### Model Classification Results
 
-![Command Line Arguments](screenshots/01_command_arguments.png)
+| Model   | Dogs Correct (breed) | Dogs Incorrect (breed) | Not-Dogs Correct | Not-Dogs Incorrect |
+| ------- | -------------------: | ---------------------: | ---------------: | -----------------: |
+| AlexNet |                   24 |                      6 |               10 |                  0 |
+| VGG     |                   28 |                      2 |               10 |                  0 |
+| ResNet  |                   27 |                      3 |               9 |                   1 |
 
-Evidence includes:
-
-* `--dir` implemented.
-* Default image directory configured.
-* `--arch` implemented.
-* Default architecture configured.
-* `--dogfile` implemented.
-* Default dog-name file configured.
-
----
-
-### Pet Image Labels
-
-![Pet Image Labels](screenshots/02_pet_labels.png)
-
-Evidence demonstrates that:
-
-* Image filenames are processed.
-* Expected pet labels are extracted.
-* Image entries are stored in the required structure.
-
----
-
-### Image Classification
-
-![Image Classification](screenshots/03_classification.png)
-
-Evidence demonstrates:
-
-* Complete image paths are passed to the classifier.
-* The selected architecture is used.
-* Classifier output is normalized.
-* Classification results are stored.
-* Correct and incorrect classifications are counted.
-
----
-
-### Dog / Not-Dog Classification
-
-![Dog Not Dog Classification](screenshots/04_dog_not_dog.png)
-
-Evidence demonstrates:
-
-* Actual labels are classified as dog/not-dog.
-* Classifier labels are classified as dog/not-dog.
-* Dog/dog matches are identified.
-* Not-dog/not-dog matches are identified.
-* Dog/not-dog mismatches are identified.
-* Not-dog/dog mismatches are identified.
-
----
-
-### Timing
-
-![Timing Results](screenshots/05_timing.png)
-
-Evidence demonstrates:
-
-* Timing starts before processing.
-* Timing stops after processing.
-* Total execution time is calculated.
-* Execution time is displayed.
-
----
-
-### Model Comparison
-
-![Model Comparison](screenshots/06_model_comparison.png)
-
-Evidence demonstrates:
-
-* AlexNet was executed.
-* VGG was executed.
-* ResNet was executed.
-* Classification statistics were generated.
-* Model results were compared.
-
----
-
-# 📊 Results
-
-The final values in this section should be taken directly from the actual project execution.
-
-Do not manually estimate or invent these values.
-
-## Model Classification Results
-
-| Model   | Dogs Correct | Dogs Incorrect | Not-Dogs Correct | Not-Dogs Incorrect |
-| ------- | -----------: | -------------: | ---------------: | -----------------: |
-| AlexNet |            — |              — |                — |                  — |
-| VGG     |            — |              — |                — |                  — |
-| ResNet  |            — |              — |                — |                  — |
-
-## Execution Time
+### Execution Time
 
 | Model   | Execution Time |
-| ------- | -------------: |
-| AlexNet |              — |
-| VGG     |              — |
-| ResNet  |              — |
-
-> Replace the placeholders with the values produced by the completed project execution.
+| ------- | ---------------: |
+| AlexNet |            0:0:3 |
+| VGG     |           0:0:23 |
+| ResNet  |            0:0:6 |
 
 ---
 
@@ -566,157 +618,185 @@ The commands are:
 python check_images.py --dir uploaded_images/ --arch alexnet --dogfile dognames.txt
 ```
 
+output:
+
+```text
+Dir: uploaded_images/
+Arch: alexnet
+Dogfile: dognames.txt
+Command Line Arguments:
+     dir = uploaded_images/
+    arch = alexnet
+ dogfile = dognames.txt
+
+...
+
+# Total Images 4 # Matches: 2 # NOT Matches: 2
+
+ ** Statistics from calculates_results_stats() function:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  50.0
+
+ ** Check Statistics - calculated from this function as a check:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:  50.0
+
+
+*** Results Summary for CNN Model Architecture ALEXNET ***
+N Images            :   4
+N Dog Images        :   2
+N Not-Dog Images    :   2
+
+pct_match: 50.0
+pct_correct_dogs: 100.0
+pct_correct_breed: 50.0
+pct_correct_notdogs: 100.0
+
+INCORRECT Dog Breed Assignment:
+Real:           golden retriever   Classifier:           afghan hound, afghan
+
+** Total Elapsed Runtime: 0:0:0
+```
+
 ```bash
 python check_images.py --dir uploaded_images/ --arch vgg --dogfile dognames.txt
+```
+
+```text
+
+Dir: uploaded_images/
+Arch: vgg
+Dogfile: dognames.txt
+Command Line Arguments:
+     dir = uploaded_images/
+    arch = vgg
+ dogfile = dognames.txt
+
+...
+
+# Total Images 4 # Matches: 2 # NOT Matches: 2
+
+ ** Statistics from calculates_results_stats() function:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed: 100.0
+
+ ** Check Statistics - calculated from this function as a check:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2
+Pct Corr dog: 100.0 Pct Corr NOTdog: 100.0  Pct Corr Breed: 100.0
+
+
+*** Results Summary for CNN Model Architecture VGG ***
+N Images            :   4
+N Dog Images        :   2
+N Not-Dog Images    :   2
+
+pct_match: 50.0
+pct_correct_dogs: 100.0
+pct_correct_breed: 100.0
+pct_correct_notdogs: 100.0
+
+** Total Elapsed Runtime: 0:0:2
 ```
 
 ```bash
 python check_images.py --dir uploaded_images/ --arch resnet --dogfile dognames.txt
 ```
 
-Record the actual classifier output below.
-
-## AlexNet
+output:
 
 ```text
-Dog_01.jpg: ...
-Dog_02.jpg: ...
-Animal_Name_01.jpg: ...
-Object_Name_01.jpg: ...
-```
+Dir: uploaded_images/
+Arch: resnet
+Dogfile: dognames.txt
+Command Line Arguments:
+     dir = uploaded_images/
+    arch = resnet
+ dogfile = dognames.txt
 
-## VGG
+...
 
-```text
-Dog_01.jpg: ...
-Dog_02.jpg: ...
-Animal_Name_01.jpg: ...
-Object_Name_01.jpg: ...
-```
+# Total Images 4 # Matches: 3 # NOT Matches: 1
 
-## ResNet
+ ** Statistics from calculates_results_stats() function:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2
+Pct Corr dog: 100.0 Pct Corr NOTdog:  50.0  Pct Corr Breed: 100.0
 
-```text
-Dog_01.jpg: ...
-Dog_02.jpg: ...
-Animal_Name_01.jpg: ...
-Object_Name_01.jpg: ...
+ ** Check Statistics - calculated from this function as a check:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2
+Pct Corr dog: 100.0 Pct Corr NOTdog:  50.0  Pct Corr Breed: 100.0
+
+
+*** Results Summary for CNN Model Architecture RESNET ***
+N Images            :   4
+N Dog Images        :   2
+N Not-Dog Images    :   2
+
+pct_match: 75.0
+pct_correct_dogs: 100.0
+pct_correct_breed: 100.0
+pct_correct_notdogs: 50.0
+
+INCORRECT Dog/NOT Dog Assignments:
+Real:                        cat   Classifier:   norwegian elkhound, elkhound
+
+** Total Elapsed Runtime: 0:0:1
+
 ```
 
 ---
 
-# ❓ Questions Regarding Uploaded Image Classification
+## ❓ Uploaded Image Questions
 
-## 1. Did the three model architectures classify the breed of `Dog_01.jpg` as the same breed?
+### 1. Did the three model architectures classify the breed of `Collie_01.jpg` as the same breed?
 
 **Answer:**
 
-Replace this section with the actual classifications produced by AlexNet, VGG, and ResNet.
-
-For example:
-
 ```text
-AlexNet: [breed]
-VGG:     [breed]
-ResNet:  [breed]
+AlexNet: collie
+VGG:     collie
+ResNet:  collie
 ```
 
-Then state whether all three predictions were identical.
+Yes — all three architectures classified `Collie_01.jpg` as **collie**. This is consistent with the uploaded-image breed-accuracy results above: VGG and ResNet each reported 100% correct breed classification, and AlexNet's only breed error (`pct_correct_breed: 50.0`) was on the golden retriever image, not the collie.
 
----
-
-## 2. Did each model classify `Dog_01.jpg` as the same breed as `Dog_02.jpg`?
+### 2. Did each model classify `Collie_01.jpg` as the same breed as `Golden_retriever_02.jpg`?
 
 **Answer:**
 
 Compare the two images separately for each architecture:
 
-| Model   | Dog_01 | Dog_02 | Same Breed? |
-| ------- | ------ | ------ | ----------- |
-| AlexNet | —      | —      | —           |
-| VGG     | —      | —      | —           |
-| ResNet  | —      | —      | —           |
+| Model   | Dog_01 (Collie_01.jpg) | Dog_02 (Golden_retriever_02.jpg) | Same Breed? |
+| ------- | ---------------------- | -------------------------------- | ----------- |
+| AlexNet | collie                 | afghan hound, afghan             | No          |
+| VGG     | collie                 | golden retriever                 | No          |
+| ResNet  | collie                 | golden retriever                 | No          |
 
-Use the actual classifier results to complete the table.
+No model classified the two images as the same breed. VGG and ResNet got both breeds right; AlexNet got the collie right but misclassified the golden retriever as an afghan hound — its one incorrect dog breed assignment on the uploaded set.
 
----
-
-## 3. Did all three models correctly classify `Animal_Name_01.jpg` and `Object_Name_01.jpg` as not dogs?
+### 3. Did all three models correctly classify `cat_01.jpg` and `hourglass_01.jpg` as not dogs?
 
 **Answer:**
 
 Compare the actual expected category with the classifier result for each model.
 
-| Image                | AlexNet | VGG | ResNet |
-| -------------------- | ------- | --- | ------ |
-| `Animal_Name_01.jpg` | —       | —   | —      |
-| `Object_Name_01.jpg` | —       | —   | —      |
+| Image               | AlexNet   | VGG       | ResNet                                    |
+| -------------------- | --------- | --------- | ------------------------------------------ |
+| `cat_01.jpg`         | Correct   | Correct   | **Incorrect** — classified as a dog (norwegian elkhound, elkhound) |
+| `hourglass_01.jpg`   | Correct   | Correct   | Correct                                    |
 
-State which predictions were correct and identify any misclassification.
+AlexNet and VGG correctly identified both non-dog images (`pct_correct_notdogs: 100.0` for each). ResNet missed one — it misclassified `cat_01.jpg` as a dog, bringing its not-dog accuracy down to 50%, while still correctly passing `hourglass_01.jpg`.
 
----
-
-## 4. Which model architecture performed best on the four uploaded images?
+### 4. Which model architecture performed best on the four uploaded images?
 
 **Answer:**
 
-The best-performing architecture should be selected using the actual results from the four uploaded images.
+**VGG** performed best on the uploaded set — it was the only architecture with zero classification errors across all four images: 100% correct dog/not-dog identification and 100% correct breed identification.
 
-Consider:
+* **AlexNet** — correctly identified dog vs. not-dog for all four images (100% correct dogs, 100% correct not-dogs) but got one breed wrong (golden retriever misclassified as afghan hound → 50% correct breed).
+* **VGG** — no errors: both dogs correctly identified and breed-classified, both not-dogs correctly identified.
+* **ResNet** — got both dog breeds right (100% correct breed) but misclassified `cat_01.jpg` as a dog, the only dog/not-dog error among the three (90% correct not-dogs on the full 40-image set, 50% on the 4-image uploaded set).
 
-* Correct dog classifications.
-* Correct non-dog classifications.
-* Incorrect dog classifications.
-* Incorrect non-dog classifications.
-
-Do not select a model based only on general knowledge about AlexNet, VGG, or ResNet. Use the results produced by this project.
-
----
-
-# 🧠 Key Python Concepts
-
-This project provides practical experience with several Python concepts:
-
-### Command-line arguments
-
-Using `argparse` to allow users to configure:
-
-* Image directory.
-* CNN architecture.
-* Dog-breed file.
-
-### Dictionaries
-
-Used to associate image filenames with extracted labels and classification information.
-
-### Functions
-
-The application is divided into functions and modules with separate responsibilities.
-
-### String processing
-
-Used for:
-
-* Extracting labels from filenames.
-* Converting labels to lowercase.
-* Removing unnecessary whitespace.
-* Comparing normalized labels.
-
-### File and directory processing
-
-Used to locate and process images from the selected directory.
-
-### Timing
-
-Python's timing functionality is used to measure program execution time.
-
-### Conditional logic
-
-Used to determine:
-
-* Dog vs. not-dog.
-* Correct vs. incorrect classification.
-* Model-specific results.
+VGG's accuracy comes at a runtime cost, though: on the full `pet_images/` set above it took roughly 8x longer than AlexNet (0:0:23 vs. 0:0:3) and about 4x longer than ResNet (0:0:23 vs. 0:0:6).
 
 ---
 
@@ -733,5 +813,3 @@ Used to determine:
 **Environment:** Conda
 
 **Models:** AlexNet, VGG, ResNet
-#   u d a c i t y - p r o j e c t - c l a s s i f y - p e t - i m a g e s  
- 
