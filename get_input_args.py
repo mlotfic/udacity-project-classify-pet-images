@@ -81,9 +81,30 @@ def get_input_args():
     )
 
     args = parser.parse_args()
+    
     print("Dir:", args.dir)
     print("Arch:", args.arch)
     print("Dogfile:", args.dogfile)
 
     # Parses the command line arguments and returns the resulting Namespace object
     return args
+
+if __name__ == "__main__":
+    import sys
+    
+    # TEST 1
+    sys.argv = ['check_images.py']
+    in_arg = get_input_args()
+    print(f"  in_arg.dir      = {in_arg.dir!r}   (expected: 'pet_images/')")
+    print(f"  in_arg.arch     = {in_arg.arch!r}   (expected: 'vgg')")
+    print(f"  in_arg.dogfile  = {in_arg.dogfile!r}   (expected: 'dognames.txt')")
+    
+    # TEST 2
+    sys.argv = ['check_images.py', '--dir', 'uploaded_images/',
+                '--arch', 'resnet', '--dogfile', 'custom_dognames.txt']
+    
+    in_arg = get_input_args()
+    print(f"  in_arg.dir      = {in_arg.dir!r}")
+    print(f"  in_arg.arch     = {in_arg.arch!r}")
+    print(f"  in_arg.dogfile  = {in_arg.dogfile!r}")
+    
