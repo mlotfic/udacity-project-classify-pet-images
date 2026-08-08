@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/adjust_results4_isadog.py
 #                                                                             
-# PROGRAMMER: 
+# PROGRAMMER: Mahmoud lotfi
 # DATE CREATED:                                 
-# REVISED DATE: 
+# REVISED DATE: 08-08-2026
 # PURPOSE: 
 #   Create a function `adjust_results4_isadog` that adjusts the results dictionary 
 #   - to indicate whether or not the pet image label is of-a-dog, and
