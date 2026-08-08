@@ -29,6 +29,8 @@ model = "vgg"
 # NOTE: image_classication is a text string - It contains mixed case(both lower
 # and upper case letter) image labels that can be separated by commas when a 
 # label has more than one word that can describe it.
+# DEBUG::
+# img_path = test_image; model_name = model
 image_classification = classifier(test_image, model)
 
 # prints result from running classifier() function
