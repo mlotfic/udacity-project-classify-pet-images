@@ -10,8 +10,6 @@ The project focuses on building the Python application around an existing image-
 
 ## 📋 Table of Contents
 
-## 📋 Table of Contents
-
 * [Project Overview](#-project-overview)
 * [Project Objectives](#-project-objectives)
 * [Project Architecture](#-project-architecture)
