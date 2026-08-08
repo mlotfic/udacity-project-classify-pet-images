@@ -171,3 +171,17 @@ def calculates_results_stats(results_dic):
 
     # TODO 5f - DONE
     return results_stats_dic
+
+if __name__ == '__main__':
+    results_dic = {
+        'Basenji_00963.jpg': ['basenji', 'basenji', 1, 1, 1], 
+        'Basenji_00974.jpg': ['basenji', 'basenji', 1, 1, 1], 
+        'Basset_hound_01034.jpg': ['basset hound', 'basset, basset hound', 1, 1, 1], 
+        'Beagle_01125.jpg': ['beagle', 'beagle', 1, 1, 1], 
+        'Beagle_01141.jpg': ['beagle', 'beagle', 1, 1, 1], 
+        'Beagle_01170.jpg': ['beagle', 'walker hound, walker foxhound', 0, 1, 1], 
+        'Boston_terrier_02259.jpg': ['boston terrier', 'boston bull, boston terrier', 1, 1, 1], 
+        'skunk_029.jpg': ['skunk', 'skunk, polecat, wood pussy', 1, 0, 0]
+    }
+    results_dic = calculates_results_stats(results_dic)
+    print(results_dic)

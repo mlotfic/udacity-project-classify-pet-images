@@ -91,3 +91,19 @@ def classify_images(images_dir, results_dic, model):
       # the extend function 
       else:
         results_dic[key].extend((model_label, 0))
+        
+if __name__ == '__main__':
+    results_dic = {
+        'Basenji_00963.jpg': ['basenji'], 
+        'Basenji_00974.jpg': ['basenji'], 
+        'Basset_hound_01034.jpg': ['basset hound'], 
+        'Beagle_01125.jpg': ['beagle'], 
+        'Beagle_01141.jpg': ['beagle'], 
+        'Beagle_01170.jpg': ['beagle'], 
+        'Boston_terrier_02259.jpg': ['boston terrier'],
+        'skunk_029.jpg': ['skunk']
+        }
+    classify_images('pet_images/', results_dic, 'vgg')
+    
+    print(results_dic)
+    

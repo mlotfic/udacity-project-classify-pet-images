@@ -137,3 +137,18 @@ def adjust_results4_isadog(results_dic, dogfile):
             # appends (0, 0) because both labels aren't dogs
             else:
                 results_dic[key].extend((0, 0))
+
+if __name__ == '__main__':
+    results_dic = {
+        'Basenji_00963.jpg': ['basenji', 'basenji', 1], 
+        'Basenji_00974.jpg': ['basenji', 'basenji', 1], 
+        'Basset_hound_01034.jpg': ['basset hound', 'basset, basset hound', 1], 
+        'Beagle_01125.jpg': ['beagle', 'beagle', 1], 
+        'Beagle_01141.jpg': ['beagle', 'beagle', 1], 
+        'Beagle_01170.jpg': ['beagle', 'walker hound, walker foxhound', 0], 
+        'Boston_terrier_02259.jpg': ['boston terrier', 'boston bull, boston terrier', 1], 
+        'skunk_029.jpg': ['skunk', 'skunk, polecat, wood pussy', 1]
+        }
+    adjust_results4_isadog(results_dic, dogfile='dognames.txt')
+    
+    print(results_dic)
